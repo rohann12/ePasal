@@ -1,12 +1,13 @@
 <div class="sidebar w-72 h-full  border-r border-gray-200">
-    <div class="flex h-20 border-b border-gray-200 justify-center bg-black">
-        <span class="text-2xl cursor-pointer h-full">
-            <img src="{{ asset('logos/lo.png') }}" alt="icon" class="h-full">
+    <div class="flex items-center justify-center h-20 border-b border-gray-200 bg-gradient-to-r from-green-400 to-teal-600">
+        <span class="text-3xl font-semibold text-white  tracking-widest cursor-pointer">
+            ePasal
         </span>
     </div>
+    
     <div class="flex flex-row items-center h-20 ps-8">
         <div class=" h-10 w-10 rounded-full bg-red-200">
-            <img src="{{ asset('logos/logo.png') }}" alt="Profile Photo" class="rounded-full"
+            <img src="{{ asset('logos/profile.svg') }}" alt="Profile Photo" class="rounded-full"
                 style="height:100%;width:100%;object-fit:cover;">
         </div>
         <div class="flex flex-col ml-4">
@@ -28,12 +29,12 @@
                 Categories</a>
         </div>
         <div class="flex items-center h-12">
-            <a href="#" class="flex flex-row items-center gap-3 w-full py-4 px-8">
+            <a href="{{route('product.index')}}" class="flex flex-row items-center gap-3 w-full py-4 px-8">
                 <object type="image/svg+xml" data="{{ asset('logos/product.svg') }}"></object>
                 Product</a>
         </div>
 
-        <div class="flex items-center h-12 ">
+        {{-- <div class="flex items-center h-12 ">
             <a href="#" class="flex flex-row items-center gap-3 w-full py-4 px-8">
                 <object type="image/svg+xml" data="{{ asset('logos/orders.svg') }}"></object>
                 Orders</a>
@@ -55,8 +56,8 @@
             <a href="#" class="flex flex-row items-center gap-3 w-full py-4 px-8">
                 <object type="image/svg+xml" data="{{ asset('logos/invoice.svg') }}"></object>
                 Invoice</a>
-        </div>
-    </div>
+        </div>--}}
+    </div> 
 </div>
 
 <script>
@@ -71,7 +72,7 @@
             // Loop through each link
             sidebarLinks.forEach(link => {
                 if (currentPageUrl.startsWith(link.href)) {
-                    link.classList.add('text-emerald-500', 'font-bold', 'bg-gray-200',
+                    link.classList.add('text-teal-500', 'font-bold', 'bg-gray-200',
                         'rounded-lg');
                     const svgObject = link.querySelector('object');
                     if (svgObject) {

@@ -14,10 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->string('photo_path');
-            $table->boolean('is_cover');
+            $table->boolean('is_cover')->default(false);
             $table->timestamps();
 
-            $table->foreign('id')->references('id')->on('products')->onDelete('cascade');
+            // $table->foreign('id')->references('id')->on('products')->onDelete('cascade');
 
         });
     }

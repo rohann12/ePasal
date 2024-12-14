@@ -1,13 +1,14 @@
 @extends('layouts.adminLayout')
-@section('heading', 'Categories')
-@section('subheading', 'All Categories')
-@section('title', 'Categories')
+
+@section('heading', 'Products')
+@section('subheading', 'All Products')
+@section('title', 'Products')
 
 @section('button')
 <div class="flex h-20 items-center justify-end px-5">
-    <a href="{{ route('category.create') }}">
+    <a href="{{ route('product.create') }}">
         <button class="px-10 py-2 text-white bg-teal-500 rounded-md" type="button">
-            + New Category
+            + New Product
         </button>
     </a>
 </div>
@@ -15,7 +16,7 @@
 
 @section('content')
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg" style="min-height: 400px;">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-600">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-200">
             <tr>
                 <th scope="col" class="px-6 py-3">
@@ -25,7 +26,13 @@
                     Name
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Description
+                    Category
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Price
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Quantity
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Edit
@@ -36,19 +43,25 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($categories as $category)
+            @forelse ($products as $product)
             <tr class="bg-white border-b hover:bg-gray-50">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {{ $loop->iteration }}
                 </th>
                 <td class="px-6 py-4">
-                    {{ $category->name }}
+                    {{ $product->name }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ $category->description }}
+                    {{ $product->category->name }}
+                </td>
+                <td class="px-6 py-4">
+                    Rs.{{ number_format($product->price, 2) }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ $product->quantity }}
                 </td>
                 <td class="flex px-6 py-4">
-                    <a href="{{ route('category.edit', ['category' => $category->id]) }}"
+                    <a href="{{ route('product.edit', ['product' => $product->id]) }}"
                         class="h-full font-medium text-2xl text-gray-900">
                         <svg width="24" height="26" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg"
                             class="stroke-current text-gray-600 hover:text-blue-500">
@@ -58,10 +71,10 @@
                     </a>
                 </td>
                 <td class="px-6 py-4">
-                    <form action="{{ route('category.destroy', ['category' => $category->id]) }}" method="POST">
+                    <form action="{{ route('product.destroy', ['product' => $product->id]) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Are you sure you want to delete this category?')"
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete this product?')"
                             class="text-red-500 hover:text-red-700">
                             <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.7697 14.4616H4.23122C3.9456 14.4616 3.67168 14.3482 3.46972 14.1462C3.26776 13.9442 3.1543 13.6703 3.1543 13.3847V3.69238H12.8466V13.3847C12.8466 13.6703 12.7331 13.9442 12.5312 14.1462C12.3292 14.3482 12.0553 14.4616 11.7697 14.4616Z"
@@ -81,8 +94,8 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
-                    No categories found.
+                <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                    No products found.
                 </td>
             </tr>
             @endforelse
@@ -90,4 +103,3 @@
     </table>
 </div>
 @endsection
-    

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +22,11 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
             'isAdmin' => true,
             'email_verified_at'=>'2024-09-05 10:27:07'
+        ]);
+
+        Category::create([
+            'name'=>'Food',
+            'description'=>"Consumables"
         ]);
     }
 }

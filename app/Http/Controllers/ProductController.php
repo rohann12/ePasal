@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category', 'photos')->get();
-        return view('products.index', ['products' => $products]);
+        return view('product.index', ['products' => $products]);
     }
 
     /**
@@ -23,7 +23,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('products.create', ['categories' => $categories]);
+        return view('product.create', ['categories' => $categories]);
     }
 
     /**
@@ -35,8 +35,9 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
-            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|',
         ]);
 
         $product = Product::create($validated);
@@ -48,7 +49,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        return redirect()->route('product.index')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -57,7 +58,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $product->load('category', 'photos');
-        return view('products.show', ['product' => $product]);
+        return view('product.show', ['product' => $product]);
     }
 
     /**
@@ -67,7 +68,7 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $product->load('photos');
-        return view('products.edit', ['product' => $product, 'categories' => $categories]);
+        return view('product.edit', ['product' => $product, 'categories' => $categories]);
     }
 
     /**
@@ -79,6 +80,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -92,7 +94,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+        return redirect()->route('product.index')->with('success', 'Product updated successfully.');
     }
 
     /**
@@ -103,6 +105,6 @@ class ProductController extends Controller
         $product->photos()->delete(); // Delete associated photos
         $product->delete();
 
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
     }
 }

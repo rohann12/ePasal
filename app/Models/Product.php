@@ -13,7 +13,7 @@ class Product extends Model
         'description',
         'price',
         'category_id',
-        'stock',        
+        'quantity',        
     ];
 
     /**
@@ -23,7 +23,7 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    public function photo(){
+    public function photos(){
         return $this->hasMany(Photo::class);
     }
 }
