@@ -52,15 +52,7 @@ class ProductController extends Controller
         return redirect()->route('product.index')->with('success', 'Product created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-        $product->load('category', 'photos');
-        return view('product.show', ['product' => $product]);
-    }
-
+  
     /**
      * Show the form for editing the specified resource.
      */

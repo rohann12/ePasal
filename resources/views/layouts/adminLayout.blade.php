@@ -7,15 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ePasal-@yield('title')</title>
     <script src="{{ asset('tailwind.jsx') }}"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-    <link rel="icon" href="{{ asset('logos/lo.png') }}" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+ 
 
 
 </head>
@@ -30,10 +24,9 @@
                     <h3 class="font-semibold lg:text-2xl md:text-xl">@yield('heading')</h3>
                     <span class="text-gray-500 font-normal lg:text-xs md:text-xs">@yield('subheading')</span>
                 </div>
-                <div class="flex flex-row gap-x-4">
+                <div class="flex flex-row gap-x-4 relative">
                     {{-- User icon and dropdown --}}
-                    <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider"
-                        class="text-gray-300  hover:text-black mr-5 font-medium rounded-lg text-sm text-center inline-flex items-center"
+                    <button id="dropdownButton" class="text-gray-300 hover:text-black mr-5 font-medium rounded-lg text-sm text-center inline-flex items-center"
                         type="button">
                         {{-- User icon --}}
                         <div class="h-10 w-10 rounded-full bg-gray-200 ">
@@ -47,37 +40,50 @@
                                 d="m1 1 4 4 4-4" />
                         </svg>
                     </button>
-
+                
                     <!-- Dropdown menu -->
-                    <div id="dropdownDivider"
-                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 ">
-                        <ul class="py-2  text-sm text-gray-700 " aria-labelledby="dropdownDividerButton">
+                    <div id="dropdownMenu"
+                        class="z-10 hidden absolute right-6 top-8 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 mt-2">
+                        <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdownButton">
                             <li class="flex items-center px-4 hover:bg-gray-100 hover:text-teal-500">
                                 <object type="image/svg+xml" data="{{ asset('logos/profile.svg') }}"
                                     class="text-teal-500">Profile</object>
-                                <a href="#" class="block px-2 py-2 ">Profile</a>
+                                <a href="#" class="block px-2 py-2">Profile</a>
                             </li>
-
                             <li class="flex items-center px-4 hover:bg-gray-100 hover:text-teal-500">
                                 <object type="image/svg+xml" data="{{ asset('logos/settings.svg') }}"
                                     class="text-teal-500">Setting</object>
                                 <a href="#" class="block px-2 py-2">Settings</a>
                             </li>
-
-
                         </ul>
                         <div
                             class="py-2 flex items-center text-sm text-gray-700 px-4 hover:bg-gray-100 hover:text-teal-500">
                             <object type="image/svg+xml" data="{{ asset('logos/logout.svg') }}"
                                 class="text-teal-500"></object>
-
-                            <form action="{{route('logout')}}" method="POST">
+                            <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button type="submit">Logout</button>
                             </form>
                         </div>
                     </div>
                 </div>
+                
+                <script>
+                    // JavaScript to toggle the dropdown visibility
+                    document.getElementById('dropdownButton').addEventListener('click', function (event) {
+                        event.stopPropagation();
+                        const dropdown = document.getElementById('dropdownMenu');
+                        dropdown.classList.toggle('hidden');
+                    });
+                
+                    // Close dropdown when clicked outside
+                    window.addEventListener('click', function (e) {
+                        if (!e.target.closest('#dropdownButton') && !e.target.closest('#dropdownMenu')) {
+                            document.getElementById('dropdownMenu').classList.add('hidden');
+                        }
+                    });
+                </script>
+                
 
             </div>
             @yield('button')

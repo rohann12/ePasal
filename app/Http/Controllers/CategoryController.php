@@ -39,15 +39,7 @@ class CategoryController extends Controller
         return redirect()->route('category.index')->with('success', 'Category created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        $category->load('products');
-        return view('category.show', ['category' => $category]);
-    }
-
+  
     /**
      * Show the form for editing the specified resource.
      */
