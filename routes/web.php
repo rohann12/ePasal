@@ -34,7 +34,7 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-
+    
 
 Route::get('/', [WebController::class, 'index'])->name('index'); // Home page
 Route::get('/category/{categoryId}', [WebController::class, 'filterByCategory'])->name('category'); // Filter by category

@@ -30,15 +30,21 @@ class AuthController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
 
-            // Redirect based on user role or default dashboard.
-            return redirect()->intended('admin')->with('success', 'Logged in successfully!');
+            // Check if the user is an admin or regular user based on isAdmin value
+            $user = Auth::user();
+
+            if ($user->isAdmin) {
+                return redirect()->route('admin')->with('success', 'Logged in successfully as admin!');
+            } else {
+                return redirect()->route('index')->with('success', 'Logged in successfully as user!');
+            }
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
-    
+
     /**
      *Show registration form
      */
@@ -50,26 +56,26 @@ class AuthController extends Controller
     /**
      *Handle the registration process
      */
-    
+
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed', 
+            'password' => 'required|min:6|confirmed',
         ]);
 
-        
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        
+
         Auth::login($user);
 
-        
+
         return redirect()->route('index')->with('success', 'Registration successful, you are now logged in!');
     }
     /**
