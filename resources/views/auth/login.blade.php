@@ -53,7 +53,7 @@
                 </div>
                 <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Sign In</button>
             </form>
-            {{-- <p class="mt-3 text-center">Don't have an account? <a href="{{ route('register') }}" class="text-blue-500 hover:underline">Register</a></p> --}}
+            <p class="mt-3 text-center">Don't have an account? <a href="{{ route('register') }}" class="text-blue-500 hover:underline">Register</a></p>
         </div>
     </div>
 </body>

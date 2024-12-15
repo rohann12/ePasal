@@ -75,8 +75,6 @@
             @enderror
         </div>
 
-
-
         <!-- Category Selection -->
         <div class="mb-4">
             <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>

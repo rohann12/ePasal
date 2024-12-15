@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -30,6 +31,17 @@ class WebController extends Controller
 
         return view('web.details', compact('product'));
     }
+    /**
+     * show products of a category
+     */
+    public function categoryProducts($categoryId)
+    {
+        // Fetch the category and its related products
+        $category = Category::findOrFail($categoryId);
+        $products = $category->products; // Assuming Category has a relationship with Product
+
+        return view('web.categoryProducts', compact('category', 'products'));
+    }
 
     /**
      * Add a product to the cart.
@@ -49,11 +61,40 @@ class WebController extends Controller
      */
     public function showCart()
     {
-        // Fetch the current cart from the session
-        $cart = Session::get('cart', []);
+        $userId = auth()->id();
+        
+        // Fetch all products in the user's cart
+        $cartItems = Cart::where('user_id', $userId)
+                         ->with('product') // Assuming a relationship between Cart and Product models
+                         ->get();
 
-        return view('web.cart', compact('cart'));
+        // Calculate the total price
+        $totalPrice = $cartItems->sum(function($cartItem) {
+            return $cartItem->product->price * $cartItem->quantity;
+        });
+
+        return view('web.cart', compact('cartItems', 'totalPrice'));
     }
 
+    public function removeFromCart($cartItemId)
+{
+    $cartItem = Cart::findOrFail($cartItemId);
 
+    if ($cartItem->user_id === auth()->id()) {
+        $cartItem->delete();
+    }
+
+    return redirect()->route('web.cart')->with('success', 'Product removed from cart!');
+}
+
+    /**
+     * Display all categories.
+     */
+    public function categories()
+    {
+        // Fetch all categories
+        $categories = Category::all();
+
+        return view('web.categories', compact('categories'));
+    }
 }

@@ -38,12 +38,12 @@
             <a href="#" class="flex flex-row items-center gap-3 w-full py-4 px-8">
                 <object type="image/svg+xml" data="{{ asset('logos/orders.svg') }}"></object>
                 Orders</a>
-        </div>
+        </div>--}}
 
         <div class="flex items-center  h-12">
             <a href="#" class="flex flex-row items-center gap-3 w-full py-4 px-8">
                 <object type="image/svg+xml" data="{{ asset('logos/employees.svg') }}"></object>
-                Employee Update</a>
+                Employee </a>
         </div>
 
         <div class="flex items-center  h-12">
@@ -51,7 +51,7 @@
                 <object type="image/svg+xml" data="{{ asset('logos/clients-and-partners.svg') }}"></object>
                 Customers</a>
         </div>
-
+        {{--
         <div class="flex items-center  h-12">
             <a href="#" class="flex flex-row items-center gap-3 w-full py-4 px-8">
                 <object type="image/svg+xml" data="{{ asset('logos/invoice.svg') }}"></object>

@@ -32,14 +32,19 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories',
             'description' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,gif|',
         ]);
+        if ($request->hasFile('photo')) {
 
+            $photoPath = $request->file('photo')->store('photos', 'public');
+            $validated['photo_path'] = $photoPath;
+        }
         Category::create($validated);
 
         return redirect()->route('category.index')->with('success', 'Category created successfully!');
     }
 
-  
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -52,16 +57,27 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Category $category)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
-            'description' => 'nullable|string',
-        ]);
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'photo' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048', // Validating the photo
+    ]);
 
-        $category->update($validated);
+    $category->update([
+        'name' => $validated['name'],
+        'description' => $validated['description'] ?? null, // Optional description field
+    ]);
 
-        return redirect()->route('category.index')->with('success', 'Category updated successfully!');
+    // Handle the photo upload if a new photo is provided
+    if ($request->hasFile('photo')) {
+        // Store the new photo and update the category record
+        $photoPath = $request->file('photo')->store('photo', 'public');
+        $category->update(['photo' => $photoPath]);
     }
+
+    return redirect()->route('category.index')->with('success', 'Category updated successfully!');
+}
 
     /**
      * Remove the specified resource from storage.

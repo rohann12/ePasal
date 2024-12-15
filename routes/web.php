@@ -20,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource("product", ProductController::class);
@@ -32,7 +30,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 
@@ -44,3 +44,7 @@ Route::get('/cart', [WebController::class, 'showCart'])->name('cart'); // Show c
 Route::delete('/cart/remove/{id}', [WebController::class, 'removeFromCart'])->name('cart.remove'); // Remove from cart
 Route::get('/checkout', [WebController::class, 'checkout'])->name('checkout'); // Checkout page
 Route::post('/checkout', [WebController::class, 'placeOrder'])->name('order.place'); // Place order
+Route::get('/categories', [WebController::class, 'categories'])->name('categories');
+
+Route::get('/category/{categoryId}/products', [WebController::class, 'categoryProducts'])->name('category.products');
+Route::view('/contact','web.contact')->name('contact');

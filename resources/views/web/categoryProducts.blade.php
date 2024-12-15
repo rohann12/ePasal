@@ -1,17 +1,15 @@
+
 @extends('layouts.layout')
 
-@section('title', 'Home')
+@section('heading', $category->name)
+@section('subheading', 'Products in this category')
+@section('title', $category->name)
 
 @section('content')
-<div class="container mx-auto py-8">
-    <h1 class="text-3xl font-bold text-center mb-8">Welcome to Our Shop</h1>
-    <!-- Message Section -->
-    @if(session('success'))
-    <div class="mt-8 bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
-        {{ session('success') }}
-    </div>
-    @endif
-    <!-- Products Section -->
+<div class="w-full max-w-6xl mx-auto bg-white p-6 my-3 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-4">{{ $category->name }} - Products</h2>
+    
+    @if($products->count())
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach($products as $product)
         <div class="bg-white shadow-md rounded-lg p-4">
@@ -39,12 +37,8 @@
         </div>
         @endforeach
     </div>
-
-    <!-- Message Section -->
-    @if(session('success'))
-    <div class="mt-8 bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
-        {{ session('success') }}
-    </div>
+    @else
+    <p>No products found in this category.</p>
     @endif
 </div>
 @endsection
